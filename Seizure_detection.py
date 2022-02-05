@@ -9,6 +9,7 @@ from sklearn.feature_selection import mutual_info_classif,SelectKBest, SelectPer
 from sklearn.decomposition import PCA
 from scipy.stats import ranksums # for wilcoxon function
 from scipy import signal as sig
+from scipy.stats import skew,kurtosis
 eeg_sampling =256
 #Preprocessing
 def apply_filter(signal, low_freq=None,high_freq=None):
@@ -67,10 +68,27 @@ def subset_trials(signal,trial_length):
 def freq_features():
     #Compute frequency features for signal (from paper)
     return frequency_features
-def stat_features():
+def stat_features(signal):
     # compute mean skewness variance and kurtosis on time domain signal and wavelet coefficients
-    
-    return statistical_features
+    statistical_features = []
+    for trial in range(signal.shape[0]):
+        electrodes_features= []
+        for electrode in range(signal.shape[2]):
+           electrodes_features.append(np.mean(signal[trial,:,electrode]))
+           electrodes_features.append(np.var(signal[trial,:,electrode]))
+           electrodes_features.append(skew(signal[trial,:,electrode]))
+           electrodes_features.append(kurtosis(signal[trial,:,electrode]))
+
+           coeff = pywt.wavedec(signal[trial,:,electrode],'db4',level=5)
+           for level in range(len(coeff)):
+               electrodes_features.append(np.mean(coeff[level],axis =0))
+               electrodes_features.append(np.var(coeff[level],axis =0))
+               electrodes_features.append(skew(coeff[level],axis =0))
+               electrodes_features.append(kurtosis(coeff[level],axis =0))
+
+        statistical_features.append(electrodes_features)
+    statistical_features = np.asarray(statistical_features)
+    return statistical_features # 136 * 644. 644: 23 electrode * 28 feature. 28 feature: 4 time, 6*4 wavelets
 def pypackage_features():
     #use popular python packages to extract features from eeg signals (pyeeg,EEGlib,Cesuim)
     return package_features
@@ -104,7 +122,7 @@ subsetted_preictal, labels_preictal = subset_trials(preictal_data,1)
 subsetted_ictal, labels_ictal = subset_trials(ictal_data,1)
 all_trials = np.concatenate((subsetted_preictal,subsetted_ictal), axis=0)
 all_labels = np.concatenate((labels_preictal,labels_ictal), axis=0) #Zero is preictal, 1 is ictal
-
+stat = stat_features(all_trials)
 filtered_signals = filter_bank(all_trials)
 kfold = KFold(n_splits= 10,shuffle= True, random_state=42)
 # for train_Idx, test_Idx in kfold.split(all_labels):
