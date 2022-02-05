@@ -8,19 +8,41 @@ from sklearn import svm
 from sklearn.feature_selection import mutual_info_classif,SelectKBest, SelectPercentile #for mutual info
 from sklearn.decomposition import PCA
 from scipy.stats import ranksums # for wilcoxon function
-
+from scipy import signal as sig
 eeg_sampling =256
 #Preprocessing
-def apply_filter(signal, a=None,b=None):
+def apply_filter(signal, low_freq=None,high_freq=None):
     # apply a bandpass filter to the signal where a and b are the corner frequencies
-    
+    low_freq = low_freq/eeg_sampling
+    high_freq = high_freq/eeg_sampling
+    b,a = sig.butter(1,[low_freq,high_freq], btype="bandpass")
+    filtered_signal = sig.filtfilt(b,a,signal,axis=1) 
     return filtered_signal
-def filter_bank():
-
+def filter_bank(signal,cutoffs=None):
+    if (cutoffs == None):
+        cutoffs = [0.5,4,8,12,25]
+    filtered_signals = np.empty([len(cutoffs)-1,signal.shape[0],signal.shape[1],signal.shape[2]]) # 4 * 68 * 15360 * 23
+    for band in range(len(cutoffs)-1):
+        bands = [cutoffs[band],cutoffs[band+1]]
+        filtered_signals[band,:,:,:] = apply_filter(signal, low_freq=bands[0],high_freq=bands[1])
     return filtered_signals
-def normalization(features):
+def normalization(train_features,test_features=None):
     # mean and min-max normalization
-    return norm_features
+    norm_train_features = np.empty([train_features.shape[0],train_features.shape[1]])
+    if (test_features==None):
+        for feature in range(train_features.shape[1]):
+            train_column = train_features[:,feature]
+            norm_train_features[:,feature] = (train_column - np.min(train_column)) / (np.max(train_column)-np.min(train_column))
+        return norm_train_features
+    else:
+        norm_test_features = np.empty([test_features.shape[0],test_features.shape[1]])
+        for feature in range(train_features.shape[1]):
+            train_column = train_features[:,feature]
+            norm_train_features[:,feature] = (train_column - np.min(train_column)) / (np.max(train_column)-np.min(train_column))
+            test_column = test_features[:,feature]
+            norm_test_features[:,feature] = (test_column - np.min(train_column)) / (np.max(train_column)-np.min(train_column))
+        return norm_train_features,norm_test_features
+
 def subset_trials(signal,trial_length):
     # subset the loaded signal to trials of a certain length and return it as a np array
     signal = np.asarray(signal)
@@ -47,6 +69,7 @@ def freq_features():
     return frequency_features
 def stat_features():
     # compute mean skewness variance and kurtosis on time domain signal and wavelet coefficients
+    
     return statistical_features
 def pypackage_features():
     #use popular python packages to extract features from eeg signals (pyeeg,EEGlib,Cesuim)
@@ -82,7 +105,7 @@ subsetted_ictal, labels_ictal = subset_trials(ictal_data,1)
 all_trials = np.concatenate((subsetted_preictal,subsetted_ictal), axis=0)
 all_labels = np.concatenate((labels_preictal,labels_ictal), axis=0) #Zero is preictal, 1 is ictal
 
-
+filtered_signals = filter_bank(all_trials)
 kfold = KFold(n_splits= 10,shuffle= True, random_state=42)
 # for train_Idx, test_Idx in kfold.split(all_labels):
     # call preprocessing
