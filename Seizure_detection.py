@@ -120,11 +120,21 @@ def pypackage_features():
 
 def mutual_info(features, cdf):
     # use mutual information as a criteria to select the best features, and return them
+    select_percentile = SelectPercentile(
+        mutual_info_classif, cdf)  # Here cdf should be 10 for 10%
+    # Not sure if this the way to do it, but here we go
+    selected_features = select_percentile.fit_transform(features)
     return selected_features
 
 
 def wilcoxon_test(features, p_value):
     # use wilcoxon test as a criteria to select the best features, and return them
+    selected_features = []
+    for i in range(len(features) - 1):
+        for j in range(i + 1, len(features) - 1):
+            rank = ranksums(features[i], features[j])
+            if (rank.pvalue <= p_value):
+                pass  # did not fully understand what should be done here XD
     return selected_features
 
 
