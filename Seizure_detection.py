@@ -18,10 +18,10 @@ def apply_filter(signal, low_freq=None,high_freq=None):
     high_freq = high_freq/eeg_sampling
     b,a = sig.butter(1,[low_freq,high_freq], btype="bandpass")
     filtered_signal = sig.filtfilt(b,a,signal,axis=1) 
-    return filtered_signal
+    return filtered_signal # 68 * 15360 * 23
 def filter_bank(signal,cutoffs=None):
     if (cutoffs == None):
-        cutoffs = [0.5,4,8,12,25]
+        cutoffs = [0.5,4,8,12,25] 
     filtered_signals = np.empty([len(cutoffs)-1,signal.shape[0],signal.shape[1],signal.shape[2]]) # 4 * 68 * 15360 * 23
     for band in range(len(cutoffs)-1):
         bands = [cutoffs[band],cutoffs[band+1]]
