@@ -5,7 +5,7 @@ in this project we try to build a ML model that can classify seizure occurance i
 > The CHB-MIT dataset consists of EEG recordings 24 participants, with 23 electrodes. the final column is the outcome column, with 0 indicating preictal, and 1 indicating ictal. 
 ---
 ## Preprocessing 
-for preprocessing, the following steps are needed:
+for preprocessing, the following steps are implemented:
 1. Filtering: as per literature, the functional frequency range for seizure detection is 2-20 Hz. However, most literature suggest using a pandbass filter with corner frequencies of 0.5 Hz and 36 Hz.
 2. Filter Banks: after the initial filter, we may apply filters to study each frequency band of interest on its own, namely, the delta, theta, alpha, beta and gamma bands. 
 3. Mean normalization, min-max normalization. (these steps will be done after feature extraction)
@@ -14,7 +14,7 @@ for preprocessing, the following steps are needed:
 for this step, we are going to implement some useful features that were used in literature, as well as some features from renown EEG python libraries. some examples:
 1. frequency domain features: power spectral density, peak frequency, median frequency. 
 2. statistical features on time domain signal: mean, variance, skewness and kurtosis.
-3. python packages: pyeeg, EEGlib. 
+3. python packages: pyeeg.
 ---
 ## Dimensionality reduction and feature selection
 further assessment of the dimensionality of the extracted features is needed before we conclude a plan for this section of the model. However, we may consider using Princible component analysis for dimensionality reduction, and combining it with a filter method or a wrapper method for selection depending on computational resources and complexity.
