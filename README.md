@@ -8,7 +8,7 @@ in this project we try to build a ML model that can classify seizure occurance i
 for preprocessing, the following steps are implemented:
 1. Filtering: as per literature, the functional frequency range for seizure detection is 2-20 Hz. However, most literature suggest using a pandbass filter with corner frequencies of 0.5 Hz and 36 Hz.
 2. Filter Banks: after the initial filter, we may apply filters to study each frequency band of interest on its own, namely, the delta, theta, alpha, beta and gamma bands. 
-3. Mean normalization, min-max normalization. (these steps will be done after feature extraction)
+3. Standardize features by removing the mean and scaling to unit variance. (these steps will be done after feature extraction)
 ---
 ## Feature Etraction
 for this step, we are going to implement some useful features that were used in literature, as well as some features from renown EEG python libraries. some examples:
@@ -21,14 +21,25 @@ further assessment of the dimensionality of the extracted features is needed bef
 ### candidate filter methods: 
 1- mutual information  
 2- univariate statistical test (such as wilcoxon or t-test) 
-### candidate wrapper methods:
-1- Sequential forward search
-2- sequential backward search
-3- LRS algorithm.
+### Dimentionality reduction using PCA
 
 ---
 ## Classification
 Support vector machines (SVM) is one of the most widely used classifiers in literature, and is also computationally efficient, hence we choose it for our classification problem.
+
+## Install dependencies
+```
+pip install -r requirements.txt
+```
+
+#### To install pyeeg
+```
+git clone https://github.com/forrestbao/pyeeg.git
+cd pyeeg
+python setup.py install
+``` 
+## Dataset
+The data set can be downloaded by clicking [here](https://ieee-dataport.org/open-access/preprocessed-chb-mit-scalp-eeg-database#)
 
 
 # Team
