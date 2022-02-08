@@ -40,9 +40,7 @@ $ python setup.py install
 ``` 
 ---
 ## Dataset
-The data set can be downloaded from this [Link](https://ieee-dataport.org/open-access/preprocessed-chb-mit-scalp-eeg-database#) 
-<br>
-Download 2,097,150 values x 23 channels with outcome column chbmit_preprocessed_data.csv 
+The data set can be downloaded by clicking [Here](https://ieee-dataport.s3.amazonaws.com/open/65970/chbmit_preprocessed_data.csv?response-content-disposition=attachment%3B%20filename%3D%22chbmit_preprocessed_data.csv%22&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJOHYI4KJCE6Q7MIQ%2F20220208%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220208T202215Z&X-Amz-SignedHeaders=Host&X-Amz-Expires=3600&X-Amz-Signature=3a302a134e369844f47e2e2980324db247e0c590717f5f7226d2cd6191ad9771) 
 ---
 
 
