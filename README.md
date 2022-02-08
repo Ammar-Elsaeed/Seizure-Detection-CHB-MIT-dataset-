@@ -10,7 +10,7 @@ for preprocessing, the following steps are implemented:
 2. Filter Banks: after the initial filter, we may apply filters to study each frequency band of interest on its own, namely, the delta, theta, alpha, beta and gamma bands. 
 3. Standardize features by removing the mean and scaling to unit variance. (these steps will be done after feature extraction)
 ---
-## Feature Etraction
+## Feature Extraction
 for this step, we are going to implement some useful features that were used in literature, as well as some features from renown EEG python libraries. some examples:
 1. frequency domain features: power spectral density, peak frequency, median frequency. 
 2. statistical features on time domain signal: mean, variance, skewness and kurtosis.
@@ -26,20 +26,22 @@ further assessment of the dimensionality of the extracted features is needed bef
 ---
 ## Classification
 Support vector machines (SVM) is one of the most widely used classifiers in literature, and is also computationally efficient, hence we choose it for our classification problem.
+---
 
 ## Install dependencies
 ```
 $ pip install -r requirements.txt
 ```
-
 #### To install pyeeg
 ```
 $ git clone https://github.com/forrestbao/pyeeg.git
 $ cd pyeeg
 $ python setup.py install
 ``` 
+---
 ## Dataset
 The data set can be downloaded by clicking [here](https://ieee-dataport.org/open-access/preprocessed-chb-mit-scalp-eeg-database#)
+---
 
 
 # Team
