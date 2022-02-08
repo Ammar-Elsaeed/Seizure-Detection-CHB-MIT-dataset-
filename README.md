@@ -29,14 +29,14 @@ Support vector machines (SVM) is one of the most widely used classifiers in lite
 
 ## Install dependencies
 ```
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 #### To install pyeeg
 ```
-git clone https://github.com/forrestbao/pyeeg.git
-cd pyeeg
-python setup.py install
+$ git clone https://github.com/forrestbao/pyeeg.git
+$ cd pyeeg
+$ python setup.py install
 ``` 
 ## Dataset
 The data set can be downloaded by clicking [here](https://ieee-dataport.org/open-access/preprocessed-chb-mit-scalp-eeg-database#)
