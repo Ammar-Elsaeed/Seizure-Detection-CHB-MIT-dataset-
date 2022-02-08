@@ -17,12 +17,10 @@ for this step, we are going to implement some useful features that were used in 
 3. python packages: pyeeg.
 ---
 ## Dimensionality reduction and feature selection
-further assessment of the dimensionality of the extracted features is needed before we conclude a plan for this section of the model. However, we may consider using Princible component analysis for dimensionality reduction, and combining it with a filter method or a wrapper method for selection depending on computational resources and complexity.
+further assessment of the dimensionality of the extracted features is needed before we conclude a plan for this section of the model. However, we are using Princible component analysis for dimensionality reduction, and combining it with a filter method for selection.
 ### candidate filter methods: 
 1- mutual information  
 2- univariate statistical test (such as wilcoxon or t-test) 
-### Dimentionality reduction using PCA
-
 ---
 ## Classification
 Support vector machines (SVM) is one of the most widely used classifiers in literature, and is also computationally efficient, hence we choose it for our classification problem.
